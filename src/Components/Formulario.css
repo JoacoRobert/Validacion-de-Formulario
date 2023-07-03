@@ -1,0 +1,79 @@
+import React, { useState } from 'react';
+
+const Formulario = () => {
+    const [nombre,setNombre]=useState('')
+    const [email,setEmail]=useState('')
+    const [direccion,setDireccion]=useState('')
+    const [mostrarErrores,setMostrarErrores]=useState(false)
+
+    const [nombreValido,setNombreValido]=useState(false)
+    const [emailValido,setEmailValido]=useState(false)
+    const [direccionValida,setDireccionValido]=useState(false)
+
+let mensaje=''
+
+const nombreUpdate=(evento)=>{
+let  valor=evento.target.value
+setNombre(valor)
+setNombreValido(valor.length>3)
+if (valor.length>3){
+   setNombreValido(true)
+    
+}else{
+     mensaje='usted tiene que ingresar mas de 3 letras'
+}
+}
+
+ const emailUpdate=(evento)=>{
+let  valor=evento.target.value
+console.log(valor)
+setEmail(valor)
+setEmailValido(valor.length>6)
+
+}
+
+const direccionUpdate=(evento)=>{
+let  valor=evento.target.value
+setDireccion(valor)
+setDireccionValido(valor.length>8)
+
+}
+
+const enviarDatos=(evento)=>{
+    evento.preventDefault()
+    if(!nombreValido || !emailValido || !direccionValida){
+        setMostrarErrores(true)
+    }
+}
+return(
+        <div>
+            <div className='row my-5 justify-content-md-center'>
+            <div className='col-md-5'>
+            <form >
+                <div className='form-group'>
+
+                <label htmlFor="">Nombre</label>
+                <input type="text" className='form-control' onChange={nombreUpdate} value={nombre}/>
+                {(mostrarErrores && !nombreValido) && <small className='text-danger'>{mensaje}</small>}
+                </div>
+                <div className='form-group'>
+                <label htmlFor="">Email</label>
+                <input type="email" className='form-control'  onChange={emailUpdate} value={email}/>
+                {(mostrarErrores &&!emailValido) && <small className='text-danger'>email no valido</small>}
+</div>
+                <div className='form-group'>
+                <label htmlFor="">Direccion</label>
+                <input type="text" className='form-control' onChange={direccionUpdate}  value={direccion}/>
+                {(mostrarErrores && !direccionValida) && <small className='text-danger'>dirreccion no valido</small>}
+
+                </div>
+                <button type='submit' className='btn btn-primary' onClick={enviarDatos}>Enviar</button>
+            </form>
+            </div>
+           
+            </div>
+        </div>
+    )
+}
+
+export { Formulario }
